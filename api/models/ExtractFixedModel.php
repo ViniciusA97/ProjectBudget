@@ -2,10 +2,13 @@
 
 namespace Api\Models;
 
+use App\Traits\Uuids;
 use Illuminate\Database\Eloquent\Model;
 
 class ExtractFixedModel extends Model
 {
+    use Uuids;
+    public $incrementing = false;
     protected $fillable=[
         'day_repeat',
         'description',
@@ -18,7 +21,7 @@ class ExtractFixedModel extends Model
 
     public function users()
     {
-        return $this->belongsTo('Api\Models\UsersModel');
+        return $this->belongsTo(UsersModel::class);
     }
 
 }

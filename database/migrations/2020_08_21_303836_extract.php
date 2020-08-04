@@ -14,7 +14,7 @@ class Extract extends Migration
     public function up()
     {
         Schema::create('extract', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->uuid('id')->primary();
             $table->double('value')->nullable(false);
             $table->dateTime('date')->nullable(false);;
             $table->string('description')->nullable(false);;
@@ -34,6 +34,6 @@ class Extract extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('extract');
     }
 }

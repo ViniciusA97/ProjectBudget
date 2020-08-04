@@ -4,12 +4,14 @@ namespace Api\Presenter;
 
 use Exception;
 use Api\Interfaces\Presenter\AbstractPresenter;
+use Api\Models\ExtractModel;
 use Api\Repository\ExtractRepository;
 use Illuminate\Http\Request;
 
 class ExtractPresenter extends AbstractPresenter{
 
     public function __construct(){
+        $this->model = new ExtractModel();
         $this->repository =  new ExtractRepository();
     }
 
@@ -28,6 +30,7 @@ class ExtractPresenter extends AbstractPresenter{
             $desctiption = $json->description;
             $value = $json->value;
             $user_id = $json->user_id;
+            $sub = $json->subtag_id;
             $this->model->value = $value;
             $this->model->user_id = $user_id;
             $this->model->description = $desctiption;
@@ -37,7 +40,7 @@ class ExtractPresenter extends AbstractPresenter{
             }else{
                 $this->model->investimento_id = $json->investimento_id;
             }
-            //$this->model->save();
+            $this->model->save();
             return response($json->all());
         }catch(Exception $e){
             return response('Houve um problema ao salvar o dado: '.$e->getMessage(), 500);

@@ -2,10 +2,14 @@
 
 namespace Api\Models;
 
+use App\Traits\Uuids;
+use ExtractFixed;
 use Illuminate\Database\Eloquent\Model;
 
 class UsersModel extends Model
 {
+    use Uuids;
+    public $incrementing = false;
     protected $fillable=[
         'name',
         'email',
@@ -16,11 +20,11 @@ class UsersModel extends Model
 
     public function extract()
     {
-        return $this->hasMany('Api\Models\ExtractModel');
+        return $this->hasMany(ExtractModel::class);
     }
 
     public function extractFixed()
     {
-        return $this->hasMany('Api\Models\ExtractFixedModel');
+        return $this->hasMany(ExtractFixedModel::class);
     }
 }

@@ -2,10 +2,13 @@
 
 namespace Api\Models;
 
+use App\Traits\Uuids;
 use Illuminate\Database\Eloquent\Model;
 
 class TagModel extends Model
 {
+    use Uuids;
+    public $incrementing = false;
     protected $fillable=[
         'name',
     ];
@@ -14,7 +17,7 @@ class TagModel extends Model
 
     public function subtag()
     {
-        return $this->hasMany('Api\Models\SubtagModel');
+        return $this->hasMany(SubtagModel::class);
     }
 
     

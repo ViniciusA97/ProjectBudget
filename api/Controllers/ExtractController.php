@@ -21,7 +21,6 @@ class ExtractController extends Controller{
     }
 
     public function post(Request $request){
-        return $request->all();
         return $this->presenter->create($request);
     }
 

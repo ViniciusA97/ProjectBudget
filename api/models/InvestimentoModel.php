@@ -2,10 +2,13 @@
 
 namespace Api\Models;
 
+use App\Traits\Uuids;
 use Illuminate\Database\Eloquent\Model;
 
 class InvestimentoModel extends Model
 {
+    use Uuids;
+    public $incrementing = false;
     protected $fillable=[
         'meta_value',
         'name',
@@ -17,6 +20,6 @@ class InvestimentoModel extends Model
 
     public function extract()
     {
-        return $this->hasMany('Api\Models\ExtractModel');
+        return $this->hasMany(ExtractModel::class);
     }
 }
