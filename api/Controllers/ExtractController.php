@@ -5,6 +5,7 @@ namespace Api\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Api\Presenter\ExtractPresenter;
+use Api\DTO\DTO;
 
 class ExtractController extends Controller{
     // CRUD = Create Read Update Deletes
@@ -21,7 +22,8 @@ class ExtractController extends Controller{
     }
 
     public function post(Request $request){
-        return $this->presenter->create($request);
+        $dto = new DTO($request);
+        return $this->presenter->create($dto);
     }
 
     public function put(){

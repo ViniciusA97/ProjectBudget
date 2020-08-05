@@ -2,9 +2,11 @@
 
 namespace Api\Repository;
 
+use Api\DTO\DTO;
 use Api\Interfaces\DTO\AbstractDTO;
 use Api\Interfaces\Repository\AbstractRepository;
 use Api\Models\ExtractModel;
+use Exception;
 
 class ExtractRepository extends AbstractRepository{
 
@@ -25,11 +27,33 @@ class ExtractRepository extends AbstractRepository{
         return $this->model::where('user_id',$id)->get();
     }
 
-    protected function save(AbstractDTO $data){}
+    public function save(DTO $dto){
+        try{
+            date_default_timezone_set("America/recife");
+            $date = date('Y-m-d H:i:s');
+            $desctiption = $dto->get('description');
+            $value = $dto->get('value');
+            $user_id = $dto->get('user_id');
+            $this->model->value = $value;
+            $this->model->user_id = $user_id;
+            $this->model->description = $desctiption;
+            $this->model->date = $date;
+            if($dto->has('subtag_id')){
+                $this->model->subtag_id = $dto->get('subtag_id');  
+            }else{
+                $this->model->investimento_id = $dto->get('investimento_id');
+            }
+            $this->model->save();
+            return response($dto->all());
+        }catch(Exception $e){
+            return response('Houve um problema ao salvar o dado: '.$e->getMessage(), 500);
+        }
 
-    protected function update(){}
+    }
+
+    public function update(){}
     
-    protected function delete(int $id){}
+    public function delete($id){}
 }
 
 ?>
