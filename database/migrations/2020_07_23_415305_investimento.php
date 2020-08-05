@@ -13,13 +13,13 @@ class Investimento extends Migration
      */
     public function up()
     {
-        Schema::create('investimento', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->double('meta_value')->nullable(false);
-            $table->string('name')->nullable(false);
-            $table->string('description')->nullable('true');
-            $table->timestamps();
-        });
+        // Schema::create('investimento', function (Blueprint $table) {
+        //     $table->uuid('id')->primary();
+        //     $table->double('meta_value')->nullable(false);
+        //     $table->string('name')->nullable(false);
+        //     $table->string('description')->nullable('true');
+        //     $table->timestamps();
+        // });
     }
 
     /**

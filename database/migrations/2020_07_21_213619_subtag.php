@@ -13,12 +13,12 @@ class Subtag extends Migration
      */
     public function up()
     {
-        Schema::create('subtag', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('name')->unique();
-            $table->integer('tag_id')->unsigned();
-            $table->foreign('tag_id')->references('id')->on('tag');
-        });
+        // Schema::create('subtag', function (Blueprint $table) {
+        //     $table->uuid('id')->primary();
+        //     $table->string('name')->unique();
+        //     $table->uuid('tag_id');
+        //     $table->foreign('tag_id')->references('id')->on('tag');
+        // });
     }
 
     /**

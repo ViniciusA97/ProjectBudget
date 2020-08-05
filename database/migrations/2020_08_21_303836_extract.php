@@ -18,11 +18,11 @@ class Extract extends Migration
             $table->double('value')->nullable(false);
             $table->dateTime('date')->nullable(false);;
             $table->string('description')->nullable(false);;
-            $table->integer('user_id')->unsigned()->nullable('false');
+            $table->uuid('user_id')->unsigned()->nullable('false');
             $table->foreign('user_id')->references('id')->on('users');            
-            $table->integer('subtag_id')->unsigned()->nullable();
+            $table->uuid('subtag_id')->unsigned()->nullable();
             $table->foreign('subtag_id')->references('id')->on('subtag');
-            $table->integer('investimento_id')->unsigned()->nullable('true');
+            $table->uuid('investimento_id')->unsigned()->nullable('true');
             $table->foreign('investimento_id')->references('id')->on('investimento');
         });
     }

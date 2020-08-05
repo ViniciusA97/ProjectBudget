@@ -13,13 +13,13 @@ class ExtractFixed extends Migration
      */
     public function up()
     {
-        Schema::table('extract_fixed', function (Blueprint $table) {
-            // $table->bigIncrements('id');
-            // $table->integer('day_repeat')->nullable(false);
-            // $table->string('description')->nullable(false);
-            // $table->double('value')->nullable(false);
-            // $table->boolean('active')->default(true);
-            //$table->integer('user_id')->unsigned();
+        Schema::create('extract_fixed', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->uuid('user_id');
+            $table->integer('day_repeat')->nullable(false);
+            $table->string('description')->nullable(false);
+            $table->double('value')->nullable(false);
+            $table->boolean('active')->default(true);
             $table->foreign('user_id')->references("id")->on('users');
         });
     }
