@@ -10,9 +10,9 @@ abstract class AbstractRepository{
 
     protected Model $model;
 
-    abstract protected function update();
+    abstract protected function update(AbstractDTO $data);
     abstract protected function delete($id);
-    abstract protected function save(DTO $data);
+    abstract protected function save(AbstractDTO $data);
     abstract protected function getAll();
     abstract protected function getById(int $id);
 }

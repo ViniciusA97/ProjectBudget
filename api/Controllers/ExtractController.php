@@ -26,8 +26,10 @@ class ExtractController extends Controller{
         return $this->presenter->create($dto);
     }
 
-    public function put(){
-        return 'Extract Update';
+    public function put(Request $request){
+        return $request->json()->all();
+        $dto = new DTO($request);
+        return $this->presenter->update($dto);
     }
 
     public function delete(){

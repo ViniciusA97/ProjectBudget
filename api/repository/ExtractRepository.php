@@ -8,6 +8,11 @@ use Api\Interfaces\Repository\AbstractRepository;
 use Api\Models\ExtractModel;
 use Exception;
 
+//TAG ID teste : 92263a26-d72d-11ea-993a-7f2144f8b4b8
+//SUBTAG ID TESTE: c6527e4a-d72d-11ea-993b-0b266f814453
+//user teste: 3fe435f0-d72e-11ea-993d-034fd2c10ee5
+
+
 class ExtractRepository extends AbstractRepository{
 
 
@@ -27,33 +32,55 @@ class ExtractRepository extends AbstractRepository{
         return $this->model::where('user_id',$id)->get();
     }
 
-    public function save(DTO $dto){
+    public function save(AbstractDTO $dto){
         try{
             date_default_timezone_set("America/recife");
-            $date = date('Y-m-d H:i:s');
-            $desctiption = $dto->get('description');
-            $value = $dto->get('value');
-            $user_id = $dto->get('user_id');
-            $this->model->value = $value;
-            $this->model->user_id = $user_id;
-            $this->model->description = $desctiption;
-            $this->model->date = $date;
-            if($dto->has('subtag_id')){
-                $this->model->subtag_id = $dto->get('subtag_id');  
-            }else{
-                $this->model->investimento_id = $dto->get('investimento_id');
-            }
-            $this->model->save();
-            return response($dto->all());
+            $data = $this->getData($dto);
+            $this->model = $this->model->create($data);
+            $insert = $this->model->toArray();
+            return response($insert,201);
         }catch(Exception $e){
             return response('Houve um problema ao salvar o dado: '.$e->getMessage(), 500);
         }
+    }
+
+    public function update(AbstractDTO $dto){
+        $column = $this->model->find($dto->get('id'))->toArray();
+        return response($column);
+        if($dto->has('subtag_id') && is_null($column[0]['subtag_id'])){ //significa que era de um investimento
+            $array = $dto->all();
+            $array['investimento_id'] = null;
+        }else if($dto->has('subtag_id') && !is_null($column[0]['investimento_id'])){ //significa que esta mudando a subtag
+            $array = $dto->all();
+        }else if($dto->has('investimento_id') && is_null($column[0]['investimento_id'])){ //significa que está trocando de investimento para subtasg
+            $array = $dto->all();
+            $array['subtag_id'] = null;
+        }else{
+            $array = $dto->all();
+        }
+        $this->model = $this->model->find($dto->get('id'))->update($array);
+        return response($this->model->toArray(),202);
+
+    }
+    
+    public function delete($id){
 
     }
 
-    public function update(){}
-    
-    public function delete($id){}
+    private function getData(AbstractDTO $dto){
+        date_default_timezone_set("America/recife");
+        $response = array();
+        $response['date'] = date('Y-m-d H:i:s');
+        $response['description'] = $dto->get('description');
+        $response['value'] = $dto->get('value');
+        $response['user_id'] = $dto->get('user_id');
+        if($dto->has('subtag_id')){
+           $response['subtag_id'] = $dto->get('subtag_id');  
+        }else{
+            $response['investimento_id']= $dto->get('investimento_id');
+        }
+        return $response;
+    }
 }
 
 ?>

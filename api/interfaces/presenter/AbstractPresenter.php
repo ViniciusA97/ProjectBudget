@@ -11,8 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 abstract class AbstractPresenter{
 
     protected AbstractRepository $repo;
-    protected Model $model;
-
+ 
     abstract protected function create(AbstractDTO $dto);
     abstract protected function read($id);
     abstract protected function update(AbstractDTO $dto);

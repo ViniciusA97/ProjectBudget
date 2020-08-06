@@ -13,8 +13,19 @@ abstract class AbstractDTO{
         $this->data = $request->all();
     }
 
-    abstract protected function get($param);
-    abstract public function has($param);
+    public function get($param){
+        if(is_null($this->data[$param])){
+            return null;
+        }
+        return $this->data[$param];
+    }
+
+    public function has($param){
+        if(array_key_exists($param, $this->data)){
+            return true;
+        }
+        return false;
+    }
     public function all(){
         return $this->data;
     }
