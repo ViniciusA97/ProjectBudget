@@ -82,7 +82,6 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapExtractRoutes()
     {
         Route::prefix('extract')
-        ->middleware('api')
             ->namespace($this->namespaceApi)
             ->group(base_path('api/routes/extractRoutes.php'));
     }

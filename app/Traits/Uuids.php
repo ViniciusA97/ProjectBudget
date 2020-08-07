@@ -16,10 +16,7 @@ trait Uuids
         static::creating(function ($post) {
             $post->id = Uuid::uuid4();
         });
-        static::saving(function ($model) {
-                $model->id = Uuid::uuid4();
-            
-        });
+     
         
     }
 }

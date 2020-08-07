@@ -17,8 +17,8 @@ class ExtractPresenter extends AbstractPresenter{
         $this->repository =  new ExtractRepository();
     }
 
-    protected function read($id){
-        return response($this->repository->getAllByIdUser($id),201);
+    public function read($id){
+        return $this->repository->getAllByIdUser($id);
     }
 
     public function create(AbstractDTO $dto){
@@ -29,12 +29,11 @@ class ExtractPresenter extends AbstractPresenter{
        return $this->repository->save($dto);
     }
 
-    protected function delete($id){
-
+    public function delete($id){
+        return $this->repository->delete($id);
     }
 
     public function update(AbstractDTO $dto){
-         return response($dto->all());
         if(!$dto->has('id')){
             return response('A requisição deve ter o id do extract', 406);
         }
@@ -42,10 +41,6 @@ class ExtractPresenter extends AbstractPresenter{
             return response('A requisição deve ter um subtag_id ou um investimento_id',406);
         }
         return $this->repository->update($dto);
-    }
-
-    public function readtest($id){
-        return response($this->repository->getAllByIdUser($id),201);
     }
 
     

@@ -28,8 +28,13 @@ class ExtractRepository extends AbstractRepository{
         return $this->model::find($id)->get();
     }
 
-    public function getAllByIdUser(int $id){
-        return $this->model::where('user_id',$id)->get();
+    public function getAllByIdUser($id){
+        try{
+            $data = $this->model->where('user_id',$id)->get();
+            return response($data);
+        }catch(Exception $e){
+            return response('Não foi possivel achar o usuario');
+        }
     }
 
     public function save(AbstractDTO $dto){
@@ -45,26 +50,34 @@ class ExtractRepository extends AbstractRepository{
     }
 
     public function update(AbstractDTO $dto){
-        $column = $this->model->find($dto->get('id'))->toArray();
-        return response($column);
-        if($dto->has('subtag_id') && is_null($column[0]['subtag_id'])){ //significa que era de um investimento
+        $column = $this->model::where('id',$dto->get('id'))->get();
+        if($dto->has('subtag_id') && isset($column['subtag_id'])){ //significa que era de um investimento
             $array = $dto->all();
             $array['investimento_id'] = null;
-        }else if($dto->has('subtag_id') && !is_null($column[0]['investimento_id'])){ //significa que esta mudando a subtag
+        }else if($dto->has('subtag_id') && !isset($column['investimento_id'])){ //significa que esta mudando a subtag
             $array = $dto->all();
-        }else if($dto->has('investimento_id') && is_null($column[0]['investimento_id'])){ //significa que está trocando de investimento para subtasg
+        }else if($dto->has('investimento_id') && isset($column['investimento_id'])){ //significa que está trocando de investimento para subtasg
             $array = $dto->all();
             $array['subtag_id'] = null;
         }else{
             $array = $dto->all();
         }
-        $this->model = $this->model->find($dto->get('id'))->update($array);
-        return response($this->model->toArray(),202);
+        try{
+            $this->model->find($dto->get('id'))->update($array);
+            return response($array);
+        }catch(Exception $e){
+            return response($e->getMessage());
+        }
 
     }
     
     public function delete($id){
-
+        try{
+            $this->model->find($id)->delete();
+            return response('Deleted',200);
+        }catch(Exception $e){
+            return response('Houve um problema para deletar.');
+        }
     }
 
     private function getData(AbstractDTO $dto){

@@ -14,11 +14,8 @@ class ExtractController extends Controller{
         $this->presenter = new ExtractPresenter();
     }
 //test
-    public function get(Request $request){
-        $test = $request->user_id
-         ;
-        return $test;
-        return $this->presenter->readtest($request->user_id);
+    public function get(Request $request,$id){
+        return $this->presenter->read($id);
     }
 
     public function post(Request $request){
@@ -26,14 +23,13 @@ class ExtractController extends Controller{
         return $this->presenter->create($dto);
     }
 
-    public function put(Request $request){
-        return $request->json()->all();
+    public function update(Request $request){
         $dto = new DTO($request);
         return $this->presenter->update($dto);
     }
 
-    public function delete(){
-        return 'Extract Delete';
+    public function delete(Request $request, $id){
+        return $this->presenter->delete($id);
     }
 
 }
