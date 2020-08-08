@@ -43,6 +43,10 @@ class ExtractPresenter extends AbstractPresenter{
         return $this->repository->update($dto);
     }
 
+    public function getById($id){
+        return $this->repository->getById($id);
+    }
+
     
 
 }

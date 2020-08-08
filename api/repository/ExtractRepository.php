@@ -25,7 +25,11 @@ class ExtractRepository extends AbstractRepository{
     }
 
     protected function getById(int $id){
-        return $this->model::find($id)->get();
+        try{
+            return response($this->model->find($id),200);
+        }catch(Exception $e){
+            return response('Error. Não foi possível achar um extrato com esse id.', 404);
+        }
     }
 
     public function getAllByIdUser($id){
@@ -33,7 +37,7 @@ class ExtractRepository extends AbstractRepository{
             $data = $this->model->where('user_id',$id)->get();
             return response($data);
         }catch(Exception $e){
-            return response('Não foi possivel achar o usuario');
+            return response('Não foi possivel achar o usuario',404);
         }
     }
 

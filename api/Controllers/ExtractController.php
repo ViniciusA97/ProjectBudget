@@ -13,8 +13,12 @@ class ExtractController extends Controller{
     public function __construct(){
         $this->presenter = new ExtractPresenter();
     }
-//test
-    public function get(Request $request,$id){
+
+    public function get($id){
+        return $this->presenter->getById($id);
+    }
+
+    public function getByUser(Request $request,$id){
         return $this->presenter->read($id);
     }
 
