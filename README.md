@@ -6,7 +6,7 @@ Este projeto se baseia em uma api REST feita no framework Laravel, consumida por
 
 ## Documentation
 
-# Routes
+### Routes
     - Extract [GET] '/extract/{id}' : retorna um extrato pelo seu id.
     - Extract [GET] '/extract/by_user/{id_user}' : retorna todos os extrato que pertencem ao usuário.  
     - Extract [POST] '/extract' : Cria um extrato com os parâmetros passados. Parametros: user_id, value, description, subtag_id OU investimento_id.
