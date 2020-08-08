@@ -11,3 +11,4 @@ Este projeto se baseia em uma api REST feita no framework Laravel, consumida por
     - Extract [POST] '/extract' : Cria um extrato com os parâmetros passados. Parametros: user_id, value, description, subtag_id OU investimento_id.
     - Extract [POST] '/extract/edit' : Modifica um extrato com os parâmetros passados. Parametros: user_id, value, description, subtag_id OU investimento_id.
     - Extract [DELETE] '/extract/{id}' : Deleta um extrato pelo id passados.  
+df
