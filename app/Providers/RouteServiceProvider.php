@@ -43,10 +43,9 @@ class RouteServiceProvider extends ServiceProvider
     public function map()
     {
         $this->mapApiRoutes();
-
         $this->mapWebRoutes();
-
         $this->mapExtractRoutes();
+        $this->mapInvestimentoRoutes();
         //
     }
 
@@ -85,4 +84,12 @@ class RouteServiceProvider extends ServiceProvider
             ->namespace($this->namespaceApi)
             ->group(base_path('api/routes/extractRoutes.php'));
     }
+
+    protected function mapInvestimentoRoutes()
+    {
+        Route::prefix('investimento')
+            ->namespace($this->namespaceApi)
+            ->group(base_path('api/routes/investimentoRoutes.php'));
+    }
+
 }

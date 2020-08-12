@@ -5,37 +5,37 @@ namespace Api\Repository;
 use Api\DTO\DTO;
 use Api\Interfaces\DTO\AbstractDTO;
 use Api\Interfaces\Repository\AbstractRepository;
-use Api\Models\ExtractModel;
+use Api\Models\investimentoModel;
 use Exception;
-use Illuminate\Support\Facades\DB;
+
+//TAG ID teste : 92263a26-d72d-11ea-993a-7f2144f8b4b8
+//SUBTAG ID TESTE: c6527e4a-d72d-11ea-993b-0b266f814453
+//user teste: 3fe435f0-d72e-11ea-993d-034fd2c10ee5
 
 
-class ExtractRepository extends AbstractRepository{
+class InvestimentoRepository extends AbstractRepository{
 
 
     public function __construct(){
-        $this->model = new ExtractModel();
+        $this->model = new InvestimentoModel();
     }
 
     protected function getAll(){
         return $this->model::all();
     }
 
-    public function getById( $id){
+    protected function getById(int $id){
         try{
-            $query = $this->buildQuery();
-            $data = $query->where('extract.id',$id)->get()->toArray();
-            return response($this->buildResponse($data),200);
+            return response($this->model->find($id),200);
         }catch(Exception $e){
-            return response($e->getMessage(), 404);
+            return response('Error. Não foi possível achar um extrato com esse id.', 404);
         }
     }
 
     public function getAllByIdUser($id){
         try{
-            $query = $this->buildQuery();
-            $data = $query->where('user_id',$id)->get()->toArray();
-            return response(200)->json($this->buildResponse($data));
+            $data = $this->model->where('user_id',$id)->get();
+            return response($data);
         }catch(Exception $e){
             return response('Não foi possivel achar o usuario',404);
         }
@@ -55,12 +55,12 @@ class ExtractRepository extends AbstractRepository{
 
     public function update(AbstractDTO $dto){
         $column = $this->model::where('id',$dto->get('id'))->get();
-        if($dto->has('subtag_id') && isset($column['subtag_id'])){ 
+        if($dto->has('subtag_id') && isset($column['subtag_id'])){ //significa que era de um investimento
             $array = $dto->all();
             $array['investimento_id'] = null;
-        }else if($dto->has('subtag_id') && !isset($column['investimento_id'])){ 
+        }else if($dto->has('subtag_id') && !isset($column['investimento_id'])){ //significa que esta mudando a subtag
             $array = $dto->all();
-        }else if($dto->has('investimento_id') && isset($column['investimento_id'])){ 
+        }else if($dto->has('investimento_id') && isset($column['investimento_id'])){ //significa que está trocando de investimento para subtasg
             $array = $dto->all();
             $array['subtag_id'] = null;
         }else{
@@ -72,6 +72,7 @@ class ExtractRepository extends AbstractRepository{
         }catch(Exception $e){
             return response($e->getMessage());
         }
+
     }
     
     public function delete($id){
@@ -84,11 +85,9 @@ class ExtractRepository extends AbstractRepository{
     }
 
     private function getData(AbstractDTO $dto){
+        date_default_timezone_set("America/recife");
         $response = array();
-        if(!$dto->has('date')){
-            date_default_timezone_set("America/recife");
-            $response['date'] = date('Y-m-d H:i:s');
-        }   
+        $response['date'] = date('Y-m-d H:i:s');
         $response['description'] = $dto->get('description');
         $response['value'] = $dto->get('value');
         $response['user_id'] = $dto->get('user_id');
@@ -98,31 +97,6 @@ class ExtractRepository extends AbstractRepository{
             $response['investimento_id']= $dto->get('investimento_id');
         }
         return $response;
-    }
-
-    protected function buildResponse($query){
-        $resp = array();
-            foreach($query[0] as $key => $value){
-                if(!(is_null($value))){
-                   $resp[$key] =$value; 
-                }
-            }
-        return $resp;
-    }
-
-    protected function buildQuery(){
-        $query = DB::table('extract')
-            ->leftJoin('subtag','extract.subtag_id','=','subtag.id')
-            ->leftJoin('tag','subtag.tag_id','=','tag.id')
-            ->leftJoin('investimento','extract.investimento_id','=','investimento.id')
-            ->select('extract.*',
-                    'subtag.name as subtag_name',
-                    'investimento.name as investimento_name',
-                    'investimento.description as investimento_description',
-                    'investimento.id as investimento_id',
-                    'tag.name as tag_name',
-                    'tag.id as tag_id',);
-        return $query;
     }
 }
 

@@ -15,5 +15,7 @@ abstract class AbstractRepository{
     abstract protected function save(AbstractDTO $data);
     abstract protected function getAll();
     abstract protected function getById(int $id);
+    abstract protected function buildQuery();
+    abstract protected function buildResponse($query);
 }
 ?>
