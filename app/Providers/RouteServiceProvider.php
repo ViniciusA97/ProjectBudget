@@ -46,6 +46,8 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapWebRoutes();
         $this->mapExtractRoutes();
         $this->mapInvestimentoRoutes();
+        $this->mapSubtagRoutes();
+        $this->mapTagRoutes();
         //
     }
 
@@ -81,6 +83,7 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapExtractRoutes()
     {
         Route::prefix('extract')
+            ->middleware('api')
             ->namespace($this->namespaceApi)
             ->group(base_path('api/routes/extractRoutes.php'));
     }
@@ -90,6 +93,20 @@ class RouteServiceProvider extends ServiceProvider
         Route::prefix('investimento')
             ->namespace($this->namespaceApi)
             ->group(base_path('api/routes/investimentoRoutes.php'));
+    }
+
+    protected function mapSubtagRoutes()
+    {
+        Route::prefix('subtag')
+            ->namespace($this->namespaceApi)
+            ->group(base_path('api/routes/subtagRoutes.php'));
+    }
+
+    protected function mapTagRoutes()
+    {
+        Route::prefix('tag')
+            ->namespace($this->namespaceApi)
+            ->group(base_path('api/routes/tagRoutes.php'));
     }
 
 }

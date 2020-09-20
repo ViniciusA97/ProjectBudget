@@ -4,21 +4,22 @@ namespace Api\Models;
 
 use App\Traits\Uuids;
 use Illuminate\Database\Eloquent\Model;
+use Api\Models\TagModel;
 
 class SubtagModel extends Model
 {
     use Uuids;
     public $incrementing = false;
-    protected $fillable=[
+    public $fillable=[
         'name',
         'tag_id'
     ];
-    protected $table= 'subtag';
+    public $table= 'subtag';
     public $timestamps = false;
 
-    public function tag()
+    public function tags()
     {
-        return $this->belongsTo(TagModel::class);
+        return $this->belongsTo('Api\Models\TagModel','id');
     }
     
 }

@@ -4,22 +4,18 @@ namespace Api\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Api\Presenter\ExtractPresenter;
+use Api\Presenter\SubtagPresenter;
 use Api\DTO\DTO;
 
-class ExtractController extends Controller{
+class SubtagController extends Controller{
     // CRUD = Create Read Update Deletes
 
     public function __construct(){
-        $this->presenter = new ExtractPresenter();
+        $this->presenter = new SubtagPresenter();
     }
 
     public function get($id){
         return $this->presenter->getById($id);
-    }
-
-    public function getByUser(Request $request,$id){
-        return $this->presenter->read($id);
     }
 
     public function post(Request $request){
@@ -28,7 +24,6 @@ class ExtractController extends Controller{
     }
 
     public function update(Request $request){
-        return $request->all();
         $dto = new DTO($request);
         return $this->presenter->update($dto);
     }

@@ -8,11 +8,6 @@ use Api\Interfaces\Repository\AbstractRepository;
 use Api\Models\investimentoModel;
 use Exception;
 
-//TAG ID teste : 92263a26-d72d-11ea-993a-7f2144f8b4b8
-//SUBTAG ID TESTE: c6527e4a-d72d-11ea-993b-0b266f814453
-//user teste: 3fe435f0-d72e-11ea-993d-034fd2c10ee5
-
-
 class InvestimentoRepository extends AbstractRepository{
 
 
@@ -24,7 +19,7 @@ class InvestimentoRepository extends AbstractRepository{
         return $this->model::all();
     }
 
-    protected function getById(int $id){
+    protected function getById( $id){
         try{
             return response($this->model->find($id),200);
         }catch(Exception $e){
@@ -54,19 +49,15 @@ class InvestimentoRepository extends AbstractRepository{
     }
 
     public function update(AbstractDTO $dto){
-        $column = $this->model::where('id',$dto->get('id'))->get();
-        if($dto->has('subtag_id') && isset($column['subtag_id'])){ //significa que era de um investimento
-            $array = $dto->all();
-            $array['investimento_id'] = null;
-        }else if($dto->has('subtag_id') && !isset($column['investimento_id'])){ //significa que esta mudando a subtag
-            $array = $dto->all();
-        }else if($dto->has('investimento_id') && isset($column['investimento_id'])){ //significa que está trocando de investimento para subtasg
-            $array = $dto->all();
-            $array['subtag_id'] = null;
-        }else{
-            $array = $dto->all();
-        }
         try{
+            $column = $this->model::where('id',$dto->get('id'))->get();
+            if($dto->has('subtag_id') && isset($column['subtag_id'])){ //significa que era de um investimento
+                $array = $dto->all();
+                $array['investimento_id'] = null;
+            }else if($dto->has('investimento_id') && isset($column['investimento_id'])){ //significa que está trocando de investimento para subtasg
+                $array = $dto->all();
+                $array['subtag_id'] = null;
+            }
             $this->model->find($dto->get('id'))->update($array);
             return response($array);
         }catch(Exception $e){

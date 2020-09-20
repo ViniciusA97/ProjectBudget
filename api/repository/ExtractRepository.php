@@ -54,19 +54,15 @@ class ExtractRepository extends AbstractRepository{
     }
 
     public function update(AbstractDTO $dto){
-        $column = $this->model::where('id',$dto->get('id'))->get();
-        if($dto->has('subtag_id') && isset($column['subtag_id'])){ 
-            $array = $dto->all();
-            $array['investimento_id'] = null;
-        }else if($dto->has('subtag_id') && !isset($column['investimento_id'])){ 
-            $array = $dto->all();
-        }else if($dto->has('investimento_id') && isset($column['investimento_id'])){ 
-            $array = $dto->all();
-            $array['subtag_id'] = null;
-        }else{
-            $array = $dto->all();
-        }
         try{
+            $column = $this->model::where('id',$dto->get('id'))->get();
+            if($dto->has('subtag_id') && isset($column['subtag_id'])){ 
+                $array = $dto->all();
+                $array['investimento_id'] = null;
+            }else if($dto->has('investimento_id') && isset($column['investimento_id'])){ 
+                $array = $dto->all();
+                $array['subtag_id'] = null;
+            }
             $this->model->find($dto->get('id'))->update($array);
             return response($array);
         }catch(Exception $e){

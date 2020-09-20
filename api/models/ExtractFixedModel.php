@@ -9,15 +9,15 @@ class ExtractFixedModel extends Model
 {
     use Uuids;
     public $incrementing = false;
-    protected $fillable=[
+    public $fillable=[
         'day_repeat',
         'description',
         'active',
         'value',
         'user_id'
     ];
-    protected $table= 'extract_fixed';
-    protected $timestamps = false;
+    public $table= 'extract_fixed';
+    public $timestamps = false;
 
     public function users()
     {

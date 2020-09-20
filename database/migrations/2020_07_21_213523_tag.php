@@ -13,10 +13,10 @@ class Tag extends Migration
      */
     public function up()
     {
-        // Schema::create('tag', function (Blueprint $table) {
-        //     $table->uuid('id')->primary();
-        //     $table->string('name')->unique();
-        // });
+        Schema::create('tag', function (Blueprint $table) {
+             $table->uuid('id')->primary();
+             $table->string('name')->unique();
+         });
     }
 
     /**

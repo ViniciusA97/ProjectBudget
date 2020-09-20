@@ -9,15 +9,13 @@ class TagModel extends Model
 {
     use Uuids;
     public $incrementing = false;
-    protected $fillable=[
-        'name',
-    ];
-    protected $table= 'tag';
-    protected $timestamps = false;
+    public $fillable=['name',];
+    public $table= 'tag';
+    public $timestamps = false;
 
     public function subtag()
     {
-        return $this->hasMany(SubtagModel::class);
+        return $this->hasMany('Api\Models\SubtagModel','tag_id','id');
     }
 
     

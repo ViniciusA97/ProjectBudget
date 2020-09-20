@@ -9,14 +9,14 @@ class InvestimentoModel extends Model
 {
     use Uuids;
     public $incrementing = false;
-    protected $fillable=[
+    public $fillable=[
         'meta_value',
         'name',
         'description',
 
     ];
-    protected $table= 'investimento';
-    protected $timestamps = false;
+    public $table= 'investimento';
+    public $timestamps = false;
 
     public function extract()
     {

@@ -13,7 +13,7 @@ class ExtractModel extends Model
 
     public $incrementing = false;
     
-    protected $fillable=[
+    public $fillable=[
         'value',
         'date',
         'description',
@@ -22,9 +22,9 @@ class ExtractModel extends Model
         'investimento_id'
     ];
     
-    protected $table= 'extract';
+    public $table= 'extract';
     
-    protected $keyType = 'string';
+    public $keyType = 'string';
     
     public $timestamps = false;
 
