@@ -22,12 +22,11 @@ class SubtagRepository extends AbstractRepository{
         return response($response);
     }
 
-    public function getById( $id){
+    public function getById($id){
         try{
-            $response = $this->model->where('id',$id)->get();
-            dd($response);
-            $data = $response[0]->tags();
-            return response($data,200);
+            $data = $this->model->where('id',$id)->get();
+            $response = ['subtag'=>$data, 'tag'=>$data[0]->tag()->get()];
+            return response($response,200);
         }catch(Exception $e){
             return response('Error. Não foi possível achar um extrato com esse id.', 404);
         }

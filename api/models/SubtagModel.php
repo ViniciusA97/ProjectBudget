@@ -17,9 +17,9 @@ class SubtagModel extends Model
     public $table= 'subtag';
     public $timestamps = false;
 
-    public function tags()
+    public function tag()
     {
-        return $this->belongsTo('Api\Models\TagModel','id');
+        return $this->belongsTo('Api\Models\TagModel','tag_id','id');
     }
     
 }

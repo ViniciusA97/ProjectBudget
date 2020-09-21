@@ -22,8 +22,9 @@ class TagRepository extends AbstractRepository{
     public function getById($id){
         try{
             $data = $this->model->find($id);
-            $x = $data->subtag();
-            return response($x,200);
+            $subtags = $data->subtag()->get();
+            $response = ['tag'=>$data, 'subtag'=>$subtags ];
+            return response($response,200);
         }catch(Exception $e){
             return response('Error. Não foi possível achar um extrato com esse id.', 404);
         }
