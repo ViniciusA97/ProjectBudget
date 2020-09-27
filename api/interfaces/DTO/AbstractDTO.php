@@ -11,6 +11,7 @@ abstract class AbstractDTO{
 
     public function __construct(HttpRequest $request){
         $this->data = $request->all();
+        //{subtag_id:1, sfjkskjfnjsa}
     }
 
     public function get($param){

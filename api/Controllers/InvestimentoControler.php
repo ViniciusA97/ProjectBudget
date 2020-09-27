@@ -4,36 +4,43 @@ namespace Api\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Api\Presenter\ExtractPresenter;
+use Api\Presenter\InvestimentoPresenter;
+use Api\Repository\InvestimentoRepository;
 use Api\DTO\DTO;
 
 class InvestimentoController extends Controller{
     // CRUD = Create Read Update Deletes
 
-    public function __construct(){
-        $this->presenter = new ExtractPresenter();
-    }
-
     public function get($id){
-        return $this->presenter->getById($id);
+        $repository = new InvestimentoRepository();
+        $presenter = new InvestimentoPresenter($repository);
+        return $presenter->getById($id);
     }
 
     public function getByUser(Request $request,$id){
-        return $this->presenter->read($id);
+        $repository = new InvestimentoRepository();
+        $presenter = new InvestimentoPresenter($repository);
+        return $presenter->read($id);
     }
 
     public function post(Request $request){
         $dto = new DTO($request);
-        return $this->presenter->create($dto);
+        $repository = new InvestimentoRepository();
+        $presenter = new InvestimentoPresenter($repository);
+        return $presenter->create($dto);
     }
 
     public function update(Request $request){
         $dto = new DTO($request);
-        return $this->presenter->update($dto);
+        $repository = new InvestimentoRepository();
+        $presenter = new InvestimentoPresenter($repository);
+        return $presenter->update($dto);
     }
 
     public function delete(Request $request, $id){
-        return $this->presenter->delete($id);
+        $repository = new InvestimentoRepository();
+        $presenter = new InvestimentoPresenter($repository);
+        return $presenter->delete($id);
     }
 
 }

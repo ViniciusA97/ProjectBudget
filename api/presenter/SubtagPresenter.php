@@ -3,13 +3,15 @@
 namespace Api\Presenter;
 
 use Api\Interfaces\DTO\AbstractDTO;
-use Api\Interfaces\Presenter\AbstractPresenter;
-use Api\Repository\SubtagRepository;
+use Api\Interfaces\Presenter\IPresenter;
+use Api\Interfaces\Repository\IRepository;
 
-class SubtagPresenter extends AbstractPresenter{
+class SubtagPresenter implements IPresenter{
 
-    public function __construct(){
-        $this->repository =  new SubtagRepository();
+    private IRepository $repository;
+
+    public function __construct(IRepository $repository){
+        $this->repository =  $repository;
     }
 
     public function read($id){

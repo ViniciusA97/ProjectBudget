@@ -4,17 +4,18 @@ namespace Api\Presenter;
 
 use Api\Interfaces\DTO\AbstractDTO;
 use Exception;
-use Api\Interfaces\Presenter\AbstractPresenter;
+use Api\Interfaces\Presenter\IPresenter;
 use Api\Models\ExtractModel;
-use Api\Repository\ExtractRepository;
+use Api\Interfaces\Repository\IRepository;
 use DTO;
 use Illuminate\Http\Request;
 
-class ExtractPresenter extends AbstractPresenter{
+class ExtractPresenter implements IPresenter{
 
-    public function __construct(){
-        $this->model = new ExtractModel();
-        $this->repository =  new ExtractRepository();
+    private IRepository $repository;
+
+    public function __construct(IRepository $dependencie){
+        $this->repository =  $dependencie;
     }
 
     public function read($id){

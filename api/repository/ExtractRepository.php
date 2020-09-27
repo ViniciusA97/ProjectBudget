@@ -4,14 +4,16 @@ namespace Api\Repository;
 
 use Api\DTO\DTO;
 use Api\Interfaces\DTO\AbstractDTO;
-use Api\Interfaces\Repository\AbstractRepository;
+use Api\Interfaces\Repository\IRepository;
 use Api\Models\ExtractModel;
 use Exception;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
 
-class ExtractRepository extends AbstractRepository{
+class ExtractRepository implements IRepository{
 
+    private Model $model;
 
     public function __construct(){
         $this->model = new ExtractModel();

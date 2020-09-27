@@ -4,12 +4,14 @@ namespace Api\Repository;
 
 use Api\DTO\DTO;
 use Api\Interfaces\DTO\AbstractDTO;
-use Api\Interfaces\Repository\AbstractRepository;
+use Api\Interfaces\Repository\IRepository;
+use Illuminate\Database\Eloquent\Model;
 use Api\Models\TagModel;
 use Exception;
 
-class TagRepository extends AbstractRepository{
+class TagRepository implements IRepository{
 
+    private Model $model;
 
     public function __construct(){
         $this->model = new TagModel();
@@ -23,7 +25,7 @@ class TagRepository extends AbstractRepository{
         try{
             $data = $this->model->find($id);
             $subtags = $data->subtag()->get();
-            $response = ['tag'=>$data, 'subtag'=>$subtags ];
+            $response = ['tag'=>$data, 'subtags'=>$subtags];
             return response($response,200);
         }catch(Exception $e){
             return response('Error. Não foi possível achar um extrato com esse id.', 404);

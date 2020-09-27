@@ -4,12 +4,14 @@ namespace Api\Repository;
 
 use Api\DTO\DTO;
 use Api\Interfaces\DTO\AbstractDTO;
-use Api\Interfaces\Repository\AbstractRepository;
+use Api\Interfaces\Repository\IRepository;
+use Illuminate\Database\Eloquent\Model;
 use Api\Models\SubtagModel;
 use Exception;
 
-class SubtagRepository extends AbstractRepository{
+class SubtagRepository implements IRepository{
 
+    private Model $model;
 
     public function __construct(){
         $this->model = new SubtagModel();

@@ -4,12 +4,14 @@ namespace Api\Repository;
 
 use Api\DTO\DTO;
 use Api\Interfaces\DTO\AbstractDTO;
-use Api\Interfaces\Repository\AbstractRepository;
+use Api\Interfaces\Repository\IRepository;
+use Illuminate\Database\Eloquent\Model;
 use Api\Models\investimentoModel;
 use Exception;
 
-class InvestimentoRepository extends AbstractRepository{
+class InvestimentoRepository implements IRepository{
 
+    private Model $model;
 
     public function __construct(){
         $this->model = new InvestimentoModel();
