@@ -33,10 +33,19 @@ class ExtractModel extends Model
     }
 
     public function subtag(){
-        return $this->belongsTo(SubtagModel::class,'subtag_id');
+        return $this->hasOne(SubtagModel::class,'id','subtag_id');
+    }
+
+    public function tag(){
+        return $this->hasOneThrough(TagModel::class,SubtagModel::class,
+        'id', // primary key do 2 pro where 
+        'id', // clusula inner join 1. key 
+        'subtag_id', // foreign key do model para ligar no where com o 2
+        'tag_id' // clausula inner join 2. foreignkey
+    );
     }
 
     public function investimento(){
-        return $this->belongsTo(InvestimentoModel::class,'investimento_id');
+        return $this->hasOne(InvestimentoModel::class,'id','investimento_id');
     }
 }

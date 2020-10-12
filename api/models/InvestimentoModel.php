@@ -13,13 +13,13 @@ class InvestimentoModel extends Model
         'meta_value',
         'name',
         'description',
-
+        'user_id'
     ];
     public $table= 'investimento';
     public $timestamps = false;
-
+    
     public function extract()
     {
-        return $this->hasMany(ExtractModel::class);
+        return $this->hasMany('Api\Models\ExtractModel','investimento_id','id');
     }
 }

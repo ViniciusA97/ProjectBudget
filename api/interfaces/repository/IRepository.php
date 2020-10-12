@@ -3,14 +3,15 @@
 namespace Api\Interfaces\Repository;
 
 use Api\DTO\DTO;
+use Api\DTO\DTOResponseRepository;
 use Api\Interfaces\DTO\AbstractDTO;
 
 interface IRepository{
 
-    public function update(AbstractDTO $data);
-    public function delete($id);
-    public function save(AbstractDTO $data);
-    public function getAll();
-    public function getById($id);
+    public function update(AbstractDTO $data):DTOResponseRepository;
+    public function delete($id):DTOResponseRepository;
+    public function save(AbstractDTO $data):DTOResponseRepository;
+    public function getAll():DTOResponseRepository;
+    public function getById($id):DTOResponseRepository;
 }
 ?>

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Api\Presenter\ExtractPresenter;
 use Api\DTO\DTO;
 use Api\Repository\ExtractRepository;
+use OpenApi\Annotations as OA;
 
 class ExtractController extends Controller{
     // CRUD = Create Read Update Deletes
@@ -20,7 +21,7 @@ class ExtractController extends Controller{
 
     public function getByUser(Request $request,$id){
         $reporitory = new ExtractRepository();
-        $present = new ExtractPresenter($reporitory);
+        $presenter = new ExtractPresenter($reporitory);
         return $presenter->read($id);
     }
 

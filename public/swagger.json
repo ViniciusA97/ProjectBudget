@@ -1,0 +1,657 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Project Budget",
+        "description": "Project Budget API RESTful",
+        "version": "1.0.0"
+    },
+    "schemes": [
+        "http"
+    ],
+    "host": "localhost",
+    "basePath": "/ProjectBudget",
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/extract/by_user/{user_id}": {
+            "get": {
+                "tags":[
+                    {
+                        "name":"extract"
+                    }
+                ],
+                "parameters":[{
+                    "name":"user_id",
+                    "in":"path",
+                    "required":true,
+                    "type":"integer"
+                }],
+                "description": "GET all extract by user id",
+                "responses": {
+                    "200":{
+                        "description": "JSON with status and data of extract with tag and subtag or just a investimento",
+                        "schema": {
+                            "type": "array"
+                          }
+                    },
+                    "404":{
+                        "description": "JSON with status and error",
+                        "schema": {
+                            "type": "array"
+                          }
+                    }
+                }
+            }
+        },
+        "/extract/{id}": {
+            "get": {
+                "tags":[
+                    {
+                        "name":"extract"
+                    }
+                ],
+                "parameters":[{
+                    "name":"id",
+                    "in":"path",
+                    "required":true,
+                    "type":"string"
+                }],
+                "description": "GET extract by id",
+                "responses": {
+                    "200":{
+                        "description": "JSON with status and data of extract with tag and subtag or just a investimento",
+                        "schema": {
+                            "type": "array"
+                          }
+                    },
+                    "404":{
+                        "description": "JSON with status and error",
+                        "schema": {
+                            "type": "array"
+                          }
+                    }
+                }
+            },
+            "delete": {
+                "tags":[
+                    {
+                        "name":"extract"
+                    }
+                ],
+                "parameters":[{
+                    "name":"id",
+                    "in":"path",
+                    "required":true,
+                    "type":"string"
+                }],
+                "description": "delete a extract by id",
+                "responses": {
+                    "200":{
+                        "description": "JSON with status and data of extract with tag and subtag or just a investimento",
+                        "schema": {
+                            "type": "array"
+                          }
+                    },
+                    "404":{
+                        "description": "JSON with status and error",
+                        "schema": {
+                            "type": "array"
+                          }
+                    }
+                }
+            }
+        },
+        "/extract": {
+            "post": {
+                "tags":[
+                    {
+                        "name":"extract"
+                    }
+                ],
+                "parameters":[
+                    {
+                        "name":"description",
+                        "in":"query",
+                        "required":true,
+                        "type":"string"
+                    },
+                    {
+                        "name":"value",
+                        "in":"query",
+                        "required":true,
+                        "type":"float"
+                    },
+                    {
+                        "name":"value",
+                        "in":"query",
+                        "required":true,
+                        "type":"float"
+                    },
+                    {
+                        "name":"user_id",
+                        "in":"query",
+                        "required":true,
+                        "type":"string"
+                    },
+                    {
+                        "name":"subtag_id",
+                        "in":"query",
+                        "required":false,
+                        "type":"string"
+                    },
+                    {
+                        "name":"investimento_id",
+                        "in":"query",
+                        "required":false,
+                        "type":"string"
+                    }
+                ],
+                "description": "CREATE a extract",
+                "responses": {
+                    "201":{
+                        "description": "JSON with status and data of extract with tag and subtag or just a investimento",
+                        "schema": {
+                            "type": "array"
+                          }
+                    },
+                    "406":{
+                        "description": "JSON with status and error",
+                        "schema": {
+                            "type": "array"
+                          }
+                    }
+                }
+            },
+            "put": {
+                "tags":[
+                    {
+                        "name":"extract"
+                    }
+                ],
+                "parameters":[
+                    {
+                        "name":"id",
+                        "in":"query",
+                        "required":true,
+                        "type":"string"
+                    },
+                    {
+                        "name":"description",
+                        "in":"query",
+                        "required":false,
+                        "type":"string"
+                    },
+                    {
+                        "name":"value",
+                        "in":"query",
+                        "required":false,
+                        "type":"float"
+                    },
+                    {
+                        "name":"value",
+                        "in":"query",
+                        "required":false,
+                        "type":"float"
+                    },
+                    {
+                        "name":"user_id",
+                        "in":"query",
+                        "required":false,
+                        "type":"string"
+                    },
+                    {
+                        "name":"subtag_id",
+                        "in":"query",
+                        "required":false,
+                        "type":"string"
+                    },
+                    {
+                        "name":"investimento_id",
+                        "in":"query",
+                        "required":false,
+                        "type":"string"
+                    }
+                ],
+                "description": "UPDATE a extract",
+                "responses": {
+                    "200":{
+                        "description": "JSON with status and data of extract with tag and subtag or just a investimento",
+                        "schema": {
+                            "type": "array"
+                          }
+                    },
+                    "404":{
+                        "description": "JSON with status and error",
+                        "schema": {
+                            "type": "array"
+                          }
+                    }
+                }
+            }
+        },
+        "/tag/{id}":{
+            "get": {
+                "tags":[
+                    {
+                        "name":"tag"
+                    }
+                ],
+                "parameters":[{
+                    "name":"id",
+                    "in":"path",
+                    "required":true,
+                    "type":"string"
+                }],
+                "description": "GET extract by id",
+                "responses": {
+                    "200":{
+                        "description": "JSON with status and data of extract with tag and subtag or just a investimento",
+                        "schema": {
+                            "type": "array"
+                          }
+                    },
+                    "404":{
+                        "description": "JSON with status and error",
+                        "schema": {
+                            "type": "array"
+                          }
+                    }
+                }
+            },
+            "delete": {
+                "tags":[
+                    {
+                        "name":"tag"
+                    }
+                ],
+                "parameters":[{
+                    "name":"id",
+                    "in":"path",
+                    "required":true,
+                    "type":"string"
+                }],
+                "description": "delete a extract by id",
+                "responses": {
+                    "200":{
+                        "description": "JSON with status and data of extract with tag and subtag or just a investimento",
+                        "schema": {
+                            "type": "array"
+                          }
+                    },
+                    "404":{
+                        "description": "JSON with status and error",
+                        "schema": {
+                            "type": "array"
+                          }
+                    }
+                }
+            }
+        },
+        "/tag": {
+            "post": {
+                "tags":[
+                    {
+                        "name":"tag"
+                    }
+                ],
+                "parameters":[
+                    {
+                        "name":"name",
+                        "in":"query",
+                        "required":true,
+                        "type":"string"
+                    }
+                ],
+                "description": "CREATE a TAG",
+                "responses": {
+                    "201":{
+                        "description": "JSON with status and data of extract with tag and subtag or just a investimento",
+                        "schema": {
+                            "type": "array"
+                          }
+                    },
+                    "406":{
+                        "description": "JSON with status and error",
+                        "schema": {
+                            "type": "array"
+                          }
+                    }
+                }
+            },
+            "put": {
+                "tags":[
+                    {
+                        "name":"tag"
+                    }
+                ],
+                "parameters":[
+                    {
+                        "name":"id",
+                        "in":"query",
+                        "required":true,
+                        "type":"string"
+                    },
+                    {
+                        "name":"name",
+                        "in":"query",
+                        "required":false,
+                        "type":"string"
+                    }
+                ],
+                "description": "UPDATE a tag",
+                "responses": {
+                    "200":{
+                        "description": "JSON with status and data of extract with tag and subtag or just a investimento",
+                        "schema": {
+                            "type": "array"
+                          }
+                    },
+                    "404":{
+                        "description": "JSON with status and error",
+                        "schema": {
+                            "type": "array"
+                          }
+                    }
+                }
+            }
+        },
+        "/subtag/{id}":{
+            "get": {
+                "tags":[
+                    {
+                        "name":"subtag"
+                    }
+                ],
+                "parameters":[{
+                    "name":"id",
+                    "in":"path",
+                    "required":true,
+                    "type":"string"
+                }],
+                "description": "GET tag by id",
+                "responses": {
+                    "200":{
+                        "description": "JSON with status and data of extract with tag and subtag or just a investimento",
+                        "schema": {
+                            "type": "array"
+                          }
+                    },
+                    "404":{
+                        "description": "JSON with status and error",
+                        "schema": {
+                            "type": "array"
+                          }
+                    }
+                }
+            },
+            "delete": {
+                "tags":[
+                    {
+                        "name":"subtag"
+                    }
+                ],
+                "parameters":[{
+                    "name":"id",
+                    "in":"path",
+                    "required":true,
+                    "type":"string"
+                }],
+                "description": "delete a subtag by id",
+                "responses": {
+                    "200":{
+                        "description": "JSON with status and data of subtag with tag and subtag or just a investimento",
+                        "schema": {
+                            "type": "array"
+                          }
+                    },
+                    "404":{
+                        "description": "JSON with status and error",
+                        "schema": {
+                            "type": "array"
+                          }
+                    }
+                }
+            }
+        },
+        "/subtag": {
+            "post": {
+                "tags":[
+                    {
+                        "name":"subtag"
+                    }
+                ],
+                "parameters":[
+                    {
+                        "name":"name",
+                        "in":"query",
+                        "required":true,
+                        "type":"string"
+                    },
+                    {
+                        "name":"tag_id",
+                        "in":"query",
+                        "required":true,
+                        "type":"string"
+                    }
+                ],
+                "description": "CREATE a SUBTAG",
+                "responses": {
+                    "201":{
+                        "description": "JSON with status and data of extract with tag and subtag or just a investimento",
+                        "schema": {
+                            "type": "array"
+                          }
+                    },
+                    "406":{
+                        "description": "JSON with status and error",
+                        "schema": {
+                            "type": "array"
+                          }
+                    }
+                }
+            },
+            "put": {
+                "tags":[
+                    {
+                        "name":"subtag"
+                    }
+                ],
+                "parameters":[
+                    {
+                        "name":"id",
+                        "in":"query",
+                        "required":true,
+                        "type":"string"
+                    },
+                    {
+                        "name":"name",
+                        "in":"query",
+                        "required":false,
+                        "type":"string"
+                    },
+                    {
+                        "name":"tag_id",
+                        "in":"query",
+                        "required":false,
+                        "type":"string"
+                    }
+                ],
+                "description": "UPDATE a subtag",
+                "responses": {
+                    "200":{
+                        "description": "JSON with status and data of extract with tag and subtag or just a investimento",
+                        "schema": {
+                            "type": "array"
+                          }
+                    },
+                    "404":{
+                        "description": "JSON with status and error",
+                        "schema": {
+                            "type": "array"
+                          }
+                    }
+                }
+            }
+        },
+        "/investimento/{id}":{
+            "get": {
+                "tags":[
+                    {
+                        "name":"investimento"
+                    }
+                ],
+                "parameters":[{
+                    "name":"id",
+                    "in":"path",
+                    "required":true,
+                    "type":"string"
+                }],
+                "description": "GET investimento by id",
+                "responses": {
+                    "200":{
+                        "description": "JSON with status and data of extract with tag and subtag or just a investimento",
+                        "schema": {
+                            "type": "array"
+                          }
+                    },
+                    "404":{
+                        "description": "JSON with status and error",
+                        "schema": {
+                            "type": "array"
+                          }
+                    }
+                }
+            },
+            "delete": {
+                "tags":[
+                    {
+                        "name":"investimento"
+                    }
+                ],
+                "parameters":[{
+                    "name":"id",
+                    "in":"path",
+                    "required":true,
+                    "type":"string"
+                }],
+                "description": "delete a investimento by id",
+                "responses": {
+                    "200":{
+                        "description": "JSON with status and data of investimento with tag and subtag or just a investimento",
+                        "schema": {
+                            "type": "array"
+                          }
+                    },
+                    "404":{
+                        "description": "JSON with status and error",
+                        "schema": {
+                            "type": "array"
+                          }
+                    }
+                }
+            }
+        },
+        "/investimento": {
+            "post": {
+                "tags":[
+                    {
+                        "name":"investimento"
+                    }
+                ],
+                "parameters":[
+                    {
+                        "name":"meta_value",
+                        "in":"query",
+                        "required":true,
+                        "type":"string"
+                    },
+                    {
+                        "name":"name",
+                        "in":"query",
+                        "required":true,
+                        "type":"string"
+                    },
+                    {
+                        "name":"description",
+                        "in":"query",
+                        "required":true,
+                        "type":"string"
+                    },
+                    {
+                        "name":"user_id",
+                        "in":"query",
+                        "required":true,
+                        "type":"string"
+                    }
+                ],
+                "description": "CREATE a investimento",
+                "responses": {
+                    "201":{
+                        "description": "JSON with status and data of investimento with tag and subtag or just a investimento",
+                        "schema": {
+                            "type": "array"
+                          }
+                    },
+                    "406":{
+                        "description": "JSON with status and error",
+                        "schema": {
+                            "type": "array"
+                          }
+                    }
+                }
+            },
+            "put": {
+                "tags":[
+                    {
+                        "name":"investimento"
+                    }
+                ],
+                "parameters":[
+                    {
+                        "name":"id",
+                        "in":"query",
+                        "required":true,
+                        "type":"string"
+                    },
+                    {
+                        "name":"meta_value",
+                        "in":"query",
+                        "required":true,
+                        "type":"string"
+                    },
+                    {
+                        "name":"name",
+                        "in":"query",
+                        "required":true,
+                        "type":"string"
+                    },
+                    {
+                        "name":"description",
+                        "in":"query",
+                        "required":true,
+                        "type":"string"
+                    }
+                ],
+                "description": "UPDATE a investimento",
+                "responses": {
+                    "200":{
+                        "description": "JSON with status and data of investimento with tag and subtag or just a investimento",
+                        "schema": {
+                            "type": "array"
+                          }
+                    },
+                    "404":{
+                        "description": "JSON with status and error",
+                        "schema": {
+                            "type": "array"
+                          }
+                    }
+                }
+            }
+        }
+    }
+}

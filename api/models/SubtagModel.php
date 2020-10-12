@@ -12,7 +12,8 @@ class SubtagModel extends Model
     public $incrementing = false;
     public $fillable=[
         'name',
-        'tag_id'
+        'tag_id',
+        'id'
     ];
     public $table= 'subtag';
     public $timestamps = false;
@@ -20,6 +21,11 @@ class SubtagModel extends Model
     public function tag()
     {
         return $this->belongsTo('Api\Models\TagModel','tag_id','id');
+    }
+
+    public function extract()
+    {
+        return $this->hasMany('Api\Models\ExtractModel','id','subtag_id');
     }
     
 }

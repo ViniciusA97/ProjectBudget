@@ -3,6 +3,7 @@
 namespace Api\Presenter;
 
 use Api\Interfaces\DTO\AbstractDTO;
+use Api\DTO\DTOResponseRepository;
 use Api\Interfaces\Presenter\IPresenter;
 use Api\Interfaces\Repository\IRepository;
 use Api\Repository\TagRepository;
@@ -16,25 +17,30 @@ class TagPresenter implements IPresenter{
     }
 
     public function create(AbstractDTO $dto){  
-       return $this->repository->save($dto);
+       $response =  $this->repository->save($dto);
+       $status = $response->isSuccess() ? 201 : 400;
+       return response()->json([$response->getResponse()],$status);
     }
 
     public function delete($id){
-              return $this->repository->delete($id);
+        $response = $this->repository->delete($id);
+        $status = $response->isSuccess() ? 200 : 404;
+        return response()->json([$response->getResponse()],$status);
     }
 
     public function update(AbstractDTO $dto){
         if(!$dto->has('id')){
             return response('A requisição deve ter o id do extract', 406);
         }
-        return $this->repository->update($dto);
+        $response =  $this->repository->update($dto);
+        $status = $response->isSuccess() ? 200 : 404;
+        return response()->json([$response->getResponse()],$status);
     }
 
     public function read($id){
-        return $this->repository->getById($id);
+        $response = $this->repository->getById($id);
+        $status = $response->isSuccess() ? 200 : 404;
+        return response()->json([$response->getResponse()],$status);
     }
-
-    
-
 }
 ?>

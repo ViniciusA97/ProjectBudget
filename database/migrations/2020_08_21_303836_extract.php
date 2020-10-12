@@ -21,9 +21,9 @@ class Extract extends Migration
             $table->uuid('user_id')->nullable(false);
             $table->foreign('user_id')->references('id')->on('users');            
             $table->uuid('subtag_id')->nullable(true);
-            $table->foreign('subtag_id')->references('id')->on('subtag');
+            $table->foreign('subtag_id')->references('id')->on('subtag')->onDelete('set null')->change();
             $table->uuid('investimento_id')->nullable(true);
-            $table->foreign('investimento_id')->references('id')->on('investimento');
+            $table->foreign('investimento_id')->references('id')->on('investimento')->onDelete('set null')->change();
         });
     }
 

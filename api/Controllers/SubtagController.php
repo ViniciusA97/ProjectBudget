@@ -13,27 +13,27 @@ class SubtagController extends Controller{
 
     public function get($id){
         $repository = new SubtagRepository();
-        $presenter = new SubtagPresenter();
+        $presenter = new SubtagPresenter($repository);
         return $presenter->getById($id);
     }
 
     public function post(Request $request){
         $dto = new DTO($request);
         $repository = new SubtagRepository();
-        $presenter = new SubtagPresenter();
+        $presenter = new SubtagPresenter($repository);
         return $presenter->create($dto);
     }
 
     public function update(Request $request){
         $dto = new DTO($request);
         $repository = new SubtagRepository();
-        $presenter = new SubtagPresenter();
+        $presenter = new SubtagPresenter($repository);
         return $presenter->update($dto);
     }
 
     public function delete(Request $request, $id){
         $repository = new SubtagRepository();
-        $presenter = new SubtagPresenter();
+        $presenter = new SubtagPresenter($repository);
         return $presenter->delete($id);
     }
 

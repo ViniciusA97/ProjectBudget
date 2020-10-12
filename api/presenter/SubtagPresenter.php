@@ -5,6 +5,7 @@ namespace Api\Presenter;
 use Api\Interfaces\DTO\AbstractDTO;
 use Api\Interfaces\Presenter\IPresenter;
 use Api\Interfaces\Repository\IRepository;
+use Api\DTO\DTOResponseRepository;
 
 class SubtagPresenter implements IPresenter{
 
@@ -15,26 +16,36 @@ class SubtagPresenter implements IPresenter{
     }
 
     public function read($id){
-        return $this->repository->getAllByIdUser($id);
+        $response =  $this->repository->getAllByIdUser($id);
+        $status = $response->isSuccess() ? 201 : 400;
+       return response()->json([$response->getResponse()],$status);
     }
 
     public function create(AbstractDTO $dto){  
-       return $this->repository->save($dto);
+       $response =  $this->repository->save($dto);
+       $status = $response->isSuccess() ? 201 : 400;
+       return response()->json([$response->getResponse()],$status);
     }
 
     public function delete($id){
-        return $this->repository->delete($id);
+        $response =  $this->repository->delete($id);
+        $status = $response->isSuccess() ? 201 : 400;
+        return response()->json([$response->getResponse()],$status);
     }
 
     public function update(AbstractDTO $dto){
         if(!$dto->has('id')){
             return response('A requisição deve ter o id do extract', 406);
         }
-        return $this->repository->update($dto);
+        $response =  $this->repository->update($dto);
+        $status = $response->isSuccess() ? 201 : 400;
+        return response()->json([$response->getResponse()],$status);
     }
 
     public function getById($id){
-        return $this->repository->getById($id);
+        $response =  $this->repository->getById($id);
+        $status = $response->isSuccess() ? 201 : 400;
+        return response()->json([$response->getResponse()],$status);
     }
 
     

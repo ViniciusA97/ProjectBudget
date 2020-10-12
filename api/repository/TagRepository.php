@@ -3,13 +3,17 @@
 namespace Api\Repository;
 
 use Api\DTO\DTO;
+use Api\DTO\DTORepository;
+use Api\DTO\DTOResponseRepository;
 use Api\Interfaces\DTO\AbstractDTO;
+
 use Api\Interfaces\Repository\IRepository;
+use Api\Interfaces\Repository\IRepositoryDatabase;
 use Illuminate\Database\Eloquent\Model;
 use Api\Models\TagModel;
 use Exception;
 
-class TagRepository implements IRepository{
+class TagRepository implements IRepository, IRepositoryDatabase{
 
     private Model $model;
 
@@ -17,48 +21,52 @@ class TagRepository implements IRepository{
         $this->model = new TagModel();
     }
 
-    public function getAll(){
+    public function getAll():DTOResponseRepository{
         return $this->model::all();
     }
 
-    public function getById($id){
+    public function getById($id):DTOResponseRepository{ //ok
         try{
             $data = $this->model->find($id);
-            $subtags = $data->subtag()->get();
-            $response = ['tag'=>$data, 'subtags'=>$subtags];
-            return response($response,200);
+            $response = $this->buildData($data);
+            return new DTOResponseRepository($response,true,'');
         }catch(Exception $e){
-            return response('Error. Não foi possível achar um extrato com esse id.', 404);
+            return new DTOResponseRepository([],false,$e->getMessage());
         }
     }
 
-    public function save(AbstractDTO $dto){
+    public function save(AbstractDTO $dto):DTOResponseRepository{
         try{
             $data = $this->getData($dto);
-            $this->model = $this->model->create($data);
-            $insert = $this->model->toArray();
-            return response($insert,201);
+            $insert = $this->model->create($data);
+            $response = $this->buildData($insert);
+            return new DTOResponseRepository($response,true,'');
         }catch(Exception $e){
-            return response('Houve um problema ao salvar a tag: '.$e->getMessage(), 500);
+            return new DTOResponseRepository([],false,$e->getMessage());
         }
     }
 
-    public function update(AbstractDTO $dto){
+    public function update(AbstractDTO $dto):DTOResponseRepository{ // ok
         try{
-            $response = $this->model->where('id',$dto->get('id'))->update($dto->all());
-            return response($response);
+            $validate = $this->model::find($dto->get('id'));
+            if(is_null($validate)){
+                return new DTOResponseRepository([],false,'Não foi possivel achar um extrato com este ID.');
+            }
+            $validate->update($dto->all());
+            $data = $this->buildData($validate);
+            return new DTOResponseRepository([$data],true,'');
         }catch(Exception $e){
-            return response($e->getMessage());
+            return new DTOResponseRepository([],false,$e->getMessage());
         }
 
     }
     
-    public function delete($id){
+    public function delete($id):DTOResponseRepository{
         try{
             $this->model->find($id)->delete();
-            return response(['sucess'=>true],200);
+            return new DTOResponseRepository([],true,'');
         }catch(Exception $e){
-            return response('Houve um problema para deletar.');
+            return new DTOResponseRepository([],false,$e->getMessage());
         }
     }
 
@@ -66,6 +74,13 @@ class TagRepository implements IRepository{
         $response = array();
         $response['name']= $dto->get('name');
         return $response;
+    }
+
+    public function buildData($data):DTORepository{
+        $subtags = $data->subtag()->get(['name','id']);
+        $response = ['tag'=>$data];
+        $response['tag']['subtags'] = $subtags;
+        return new DTORepository(true, $response);
     }
 }
 

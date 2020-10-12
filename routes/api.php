@@ -17,6 +17,17 @@ use Illuminate\Support\Facades\Route;
 //In this file, All api Routes have a prefix type call "api"
 
 
+/**
+ * @OA\PathItem(title="My First API", version="0.1")
+ */
+
+/**
+ * @OA\Get(
+ *     path="/api/resource.json",
+ *     @OA\Response(response="200", description="An example resource")
+ * )
+ */
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });

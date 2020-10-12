@@ -4,12 +4,16 @@ namespace Api\Repository;
 
 use Api\DTO\DTO;
 use Api\Interfaces\DTO\AbstractDTO;
+
+use Api\DTO\DTOResponseRepository;
+use Api\DTO\DTORepository;
 use Api\Interfaces\Repository\IRepository;
+use Api\Interfaces\Repository\IRepositoryDatabase;
 use Illuminate\Database\Eloquent\Model;
-use Api\Models\investimentoModel;
+use Api\Models\InvestimentoModel;
 use Exception;
 
-class InvestimentoRepository implements IRepository{
+class InvestimentoRepository implements IRepository,IRepositoryDatabase{
 
     private Model $model;
 
@@ -17,19 +21,21 @@ class InvestimentoRepository implements IRepository{
         $this->model = new InvestimentoModel();
     }
 
-    protected function getAll(){
+    public function getAll():DTOResponseRepository{
         return $this->model::all();
     }
 
-    protected function getById( $id){
+    public function getById( $id):DTOResponseRepository{
         try{
-            return response($this->model->find($id),200);
+            $data = $this->model->find($id);
+            $response = $this->buildData($data);
+            return new DTOResponseRepository($response,true,'');
         }catch(Exception $e){
-            return response('Error. Não foi possível achar um extrato com esse id.', 404);
+            return new DTOResponseRepository([],false,$e->getMessage());
         }
     }
 
-    public function getAllByIdUser($id){
+    public function getAllByIdUser($id):DTOResponseRepository{
         try{
             $data = $this->model->where('user_id',$id)->get();
             return response($data);
@@ -38,42 +44,43 @@ class InvestimentoRepository implements IRepository{
         }
     }
 
-    public function save(AbstractDTO $dto){
+    public function save(AbstractDTO $data):DTOResponseRepository{
         try{
-            date_default_timezone_set("America/recife");
-            $data = $this->getData($dto);
-            $this->model = $this->model->create($data);
-            $insert = $this->model->toArray();
-            return response($insert,201);
+            $value = $this->getData($data);
+            $insert = $this->model->create($value);
+            $response = $this->buildData($insert);
+            return new DTOResponseRepository($response,true,'');
         }catch(Exception $e){
-            return response('Houve um problema ao salvar o dado: '.$e->getMessage(), 500);
+            return new DTOResponseRepository([],false,$e->getMessage());
         }
     }
 
-    public function update(AbstractDTO $dto){
+    public function update(AbstractDTO $data):DTOResponseRepository{
         try{
-            $column = $this->model::where('id',$dto->get('id'))->get();
-            if($dto->has('subtag_id') && isset($column['subtag_id'])){ //significa que era de um investimento
-                $array = $dto->all();
+            $column = $this->model::find($data->get('id'));
+            $array = $data->all();
+            if($data->has('subtag_id') && isset($column['subtag_id'])){ //significa que era de um investimento
+                $array = $data->all();
                 $array['investimento_id'] = null;
-            }else if($dto->has('investimento_id') && isset($column['investimento_id'])){ //significa que está trocando de investimento para subtasg
-                $array = $dto->all();
+            }else if($data->has('investimento_id') && isset($column['investimento_id'])){ //significa que está trocando de investimento para subtasg
+                $array = $data->all();
                 $array['subtag_id'] = null;
             }
-            $this->model->find($dto->get('id'))->update($array);
-            return response($array);
+            $column->update($array);
+            $response = $this->buildData($column);
+            return new DTOResponseRepository($response,true,'');
         }catch(Exception $e){
-            return response($e->getMessage());
+            return new DTOResponseRepository([],false,$e->getMessage());
         }
 
     }
     
-    public function delete($id){
+    public function delete($id):DTOResponseRepository{
         try{
             $this->model->find($id)->delete();
-            return response('Deleted',200);
+            return new DTOResponseRepository([],true,'');
         }catch(Exception $e){
-            return response('Houve um problema para deletar.');
+            return new DTOResponseRepository([],false,$e->getMessage());
         }
     }
 
@@ -82,14 +89,17 @@ class InvestimentoRepository implements IRepository{
         $response = array();
         $response['date'] = date('Y-m-d H:i:s');
         $response['description'] = $dto->get('description');
-        $response['value'] = $dto->get('value');
+        $response['meta_value'] = $dto->get('meta_value');
         $response['user_id'] = $dto->get('user_id');
-        if($dto->has('subtag_id')){
-           $response['subtag_id'] = $dto->get('subtag_id');  
-        }else{
-            $response['investimento_id']= $dto->get('investimento_id');
-        }
+        $response['name'] = $dto->get('name');
         return $response;
+    }
+
+    public function buildData($data):DTORepository{
+        $extract = $data->extract()->get();
+        $response['investimento'] = $data;
+        $response['investimento']['extract'] = $extract;
+        return new DTORepository(true, $response);
     }
 }
 

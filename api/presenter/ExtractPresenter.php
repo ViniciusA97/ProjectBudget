@@ -8,6 +8,7 @@ use Api\Interfaces\Presenter\IPresenter;
 use Api\Models\ExtractModel;
 use Api\Interfaces\Repository\IRepository;
 use DTO;
+use DTOResponse;
 use Illuminate\Http\Request;
 
 class ExtractPresenter implements IPresenter{
@@ -19,19 +20,25 @@ class ExtractPresenter implements IPresenter{
     }
 
     public function read($id){
-        return $this->repository->getAllByIdUser($id);
+        $response = $this->repository->getAllByIdUser($id);
+        $status = $response->isSuccess() ? 200 : 404 ;
+        return response()->json([$response->getResponse()], $status);
     }
 
     public function create(AbstractDTO $dto){
         if((!$dto->has('subtag_id') && !$dto->has('investimento_id')) || 
             ($dto->has('subtag_id') && $dto->has('investimento_id'))){
-            return response('A requisição deve conter um field subtag_id OU investimento_id',406);
+            return response('A requisição deve conter um field subtag_id OU investimento_id',400);
         }
-       return $this->repository->save($dto);
+        $response = $this->repository->save($dto);
+        $status = $response->isSuccess() ? 201 : 400 ;
+        return response()->json([$response->getResponse()],$status);
     }
 
     public function delete($id){
-        return $this->repository->delete($id);
+        $response = $this->repository->delete($id);
+        $status = $response->isSuccess() ? 200 : 400;
+        return response()->json([$response->getResponse()],$status);
     }
 
     public function update(AbstractDTO $dto){
@@ -41,11 +48,15 @@ class ExtractPresenter implements IPresenter{
         else if($dto->has('subtag_id') && $dto->has('investimento_id')){
             return response('A requisição deve ter um subtag_id ou um investimento_id',406);
         }
-        return $this->repository->update($dto);
+        $response =  $this->repository->update($dto);
+        $status = $response->isSuccess() ? 200 : 400 ;
+        return response()->json([$response->getResponse()],$status);
     }
 
     public function getById($id){
-        return $this->repository->getById($id);
+        $response = $this->repository->getById($id);
+        $status = $response->isSuccess() ? 200 : 404 ;
+        return response()->json([$response->getResponse()],$status);
     }
 
     
